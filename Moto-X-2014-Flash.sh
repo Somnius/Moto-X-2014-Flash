@@ -1,7 +1,6 @@
 #!/bin/bash
-# v0.1
 clear
-VER="0.5"
+VER="0.1"
 ###########################################################
 ### DON'T TOUCH THESE VARIABLES, DANGER OF DEVICE BRICK ###
 CURDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -21,7 +20,7 @@ warn=${bldred}*${txtrst}
 ques=${bldblu}?${txtrst}
 
 if [[ $UID != 0 ]]; then
-echo $(tput bold)"MiFlash for Mac v$VER" #set bold
+echo $(tput bold)"Moto X 2014 Flash for Mac v$VER" #set bold
 	echo "created by @SomniusX"
 	echo ""
 echo $(tput setaf 1)"Please run this script with sudo:" #set red
@@ -51,16 +50,16 @@ function read_more
 
 selection=
 until [ "$selection" = "0" ]; do
-echo $(tput bold)"MiFlash for Mac v$VER"
+echo $(tput bold)"Moto X 2014 Flash for Mac v$VER"
 	echo "created by @SomniusX"
 echo $(tput setaf 1) #set red
     echo "You need to be really carefull with the whole process"
 	echo "and make sure you are connected to the Internet."
-	echo "This program ONLY supports Xiaomi Mi3 and Mi4!!"
+	echo "This program ONLY supports Moto X 2014 (1092)!!"
 echo $(tput sgr0) #reset colors
 echo $(tput bold)"1 - Install ADB & Fastboot Tools"
     echo "2 - Uninstall ADB & Fastboot Tools"
-	echo "3 - Flash Fastboot ROM"
+	echo "3 - Flash Fastboot ROM (not yet)"
     echo ""
     echo "0 - Quit"
 echo $(tput setaf 1) #set red
@@ -73,7 +72,7 @@ echo $(tput sgr0) #reset colors
 #1 ---------- Using github.com/corbindavenport nexus tools
 curl -s -o ./install.sh "http://github.com/corbindavenport/nexus-tools/raw/master/install.sh" -LOk
 chmod +x ./install.sh
-sed -e 's/Nexus Tools/MiFlash for Mac/g' install.sh > install.sh.tmp && mv install.sh.tmp install.sh
+sed -e 's/Nexus Tools/Moto X 2014 Flash for Mac/g' install.sh > install.sh.tmp && mv install.sh.tmp install.sh
 sed -e 's/Type adb or fastboot to run/adb and fastboot are installed on your system/g' install.sh > install.sh.tmp && mv install.sh.tmp install.sh
 bash ./install.sh
 rm ./install.sh
@@ -85,7 +84,7 @@ rm ./install.sh
 #2 ---------- Using github.com/corbindavenport nexus tools
 curl -s -o ./uninstall.sh "http://github.com/corbindavenport/nexus-tools/raw/master/uninstall.sh" -LOk
 chmod +x ./uninstall.sh
-sed -e 's/Nexus Tools/MiFlash for Mac/g' uninstall.sh > uninstall.sh.tmp
+sed -e 's/Nexus Tools/Moto X 2014 Flash for Mac/g' uninstall.sh > uninstall.sh.tmp
 mv uninstall.sh.tmp uninstall.sh
 bash ./uninstall.sh
 rm ./uninstall.sh
@@ -93,7 +92,7 @@ rm ./uninstall.sh
 			echo "[WARN] Program cannot continue without adb and fastboot"
 			echo "[INFO] ..terminating"
 			echo ""
-			echo "Thank you for using MiFlash for Mac v$VER Script by @SomniusX"
+			echo "Thank you for using Moto X 2014 Flash for Mac v$VER Script by @SomniusX"
 			press_enter
 			exit
 		;;
@@ -136,31 +135,31 @@ press_enter2
 ####################################################################################
 ####################################################################################
 ### WARNING DON'T TAMPER WITH THE FOLLOWING CODE, YOU WILL BRICK YOUR DEVICE ###
-fastboot $* getvar product 2>&1 | grep "^product: *MSM8974$"
-if [ $? -ne 0 ] ; then 
-	echo ""
-	echo "$(tput bold)$(tput setaf 1)[WARN] Missmatching image and device, aborting...$(tput sgr0)"
-	echo ""
-	press_enter
-	exit;
-else
-	echo "$(tput bold)$(tput setaf 2)[ OK ]Found image and device, flashing...$(tput sgr0)"
-	echo ""
-	fastboot $* flash tz ~/Desktop/UPDATE/images/tz.mbn
-	fastboot $* flash dbi ~/Desktop/UPDATE/images/sdi.mbn
-	fastboot $* flash sbl1 ~/Desktop/UPDATE/images/sbl1.mbn
-	fastboot $* flash rpm ~/Desktop/UPDATE/images/rpm.mbn
-	fastboot $* flash aboot ~/Desktop/UPDATE/images/emmc_appsboot.mbn
-	fastboot $* erase boot
-	fastboot $* flash misc ~/Desktop/UPDATE/images/misc.img
-	fastboot $* flash modem+modem1 ~/Desktop/UPDATE/images/NON-HLOS.bin
-	fastboot $* flash system+system1 ~/Desktop/UPDATE/images/system.img
-	fastboot $* flash cache ~/Desktop/UPDATE/images/cache.img
-	fastboot $* flash userdata ~/Desktop/UPDATE/images/userdata.img
-	fastboot $* flash recovery ~/Desktop/UPDATE/images/recovery.img
-	fastboot $* flash boot+boot1 ~/Desktop/UPDATE/images/boot.img
-	fastboot $* reboot
-fi
+#.#fastboot $* getvar product 2>&1 | grep "^product: *MSM8974$"
+#.#if [ $? -ne 0 ] ; then 
+#.#	echo ""
+#.#	echo "$(tput bold)$(tput setaf 1)[WARN] Missmatching image and device, aborting...$(tput sgr0)"
+#.#	echo ""
+#.#	press_enter
+#.#	exit;
+#.#else
+#.#	echo "$(tput bold)$(tput setaf 2)[ OK ]Found image and device, flashing...$(tput sgr0)"
+#.#	echo ""
+#.#	fastboot $* flash tz ~/Desktop/UPDATE/images/tz.mbn
+#.#	fastboot $* flash dbi ~/Desktop/UPDATE/images/sdi.mbn
+#.#	fastboot $* flash sbl1 ~/Desktop/UPDATE/images/sbl1.mbn
+#.#	fastboot $* flash rpm ~/Desktop/UPDATE/images/rpm.mbn
+#.#	fastboot $* flash aboot ~/Desktop/UPDATE/images/emmc_appsboot.mbn
+#.#	fastboot $* erase boot
+#.#	fastboot $* flash misc ~/Desktop/UPDATE/images/misc.img
+#.#	fastboot $* flash modem+modem1 ~/Desktop/UPDATE/images/NON-HLOS.bin
+#.#	fastboot $* flash system+system1 ~/Desktop/UPDATE/images/system.img
+#.#	fastboot $* flash cache ~/Desktop/UPDATE/images/cache.img
+#.#	fastboot $* flash userdata ~/Desktop/UPDATE/images/userdata.img
+#.#	fastboot $* flash recovery ~/Desktop/UPDATE/images/recovery.img
+#.#	fastboot $* flash boot+boot1 ~/Desktop/UPDATE/images/boot.img
+#.#	fastboot $* reboot
+#.#fi
 ####################################################################################
 ####################################################################################
 ####################################################################################
@@ -169,7 +168,7 @@ fi
 			press_enter
 		;;
         0 )
-			echo "Thank you for using MiFlash for Mac v$VER Script by @SomniusX"
+			echo "Thank you for using Moto X 2014 Flash for Mac v$VER Script by @SomniusX"
 echo $(tput sgr0) #reset colors
 			exit
 		;;
