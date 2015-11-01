@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-VER="0.1"
+VER="1.2b"
 ###########################################################
 ### DON'T TOUCH THESE VARIABLES, DANGER OF DEVICE BRICK ###
 CURDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -135,17 +135,38 @@ press_enter2
 ####################################################################################
 ####################################################################################
 ### WARNING DON'T TAMPER WITH THE FOLLOWING CODE, YOU WILL BRICK YOUR DEVICE ###
-#.#fastboot $* getvar product 2>&1 | grep "^product: *MSM8974$"
-#.#if [ $? -ne 0 ] ; then 
-#.#	echo ""
-#.#	echo "$(tput bold)$(tput setaf 1)[WARN] Missmatching image and device, aborting...$(tput sgr0)"
-#.#	echo ""
-#.#	press_enter
-#.#	exit;
-#.#else
-#.#	echo "$(tput bold)$(tput setaf 2)[ OK ]Found image and device, flashing...$(tput sgr0)"
-#.#	echo ""
-#.#	fastboot $* flash tz ~/Desktop/UPDATE/images/tz.mbn
+fastboot $* getvar product 2>&1 | grep "^product: *MSM8974$"
+if [ $? -ne 0 ] ; then 
+	echo ""
+	echo "$(tput bold)$(tput setaf 1)[WARN] Missmatching image and device, aborting...$(tput sgr0)"
+	echo ""
+	press_enter
+	exit;
+else
+	echo "$(tput bold)$(tput setaf 2)[ OK ]Found image and device, flashing...$(tput sgr0)"
+	echo ""
+		fastboot $* flash partition gpt.bin
+		fastboot $* flash motoboot motoboot.img
+		fastboot $* reboot-bootloader
+		fastboot $* flash logo logo.bin
+		fastboot $* flash boot boot.img
+		fastboot $* flash recovery recovery.img
+		fastboot $* flash system system.img_sparsechunk.0
+		fastboot $* flash system system.img_sparsechunk.1
+		fastboot $* flash system system.img_sparsechunk.2
+		fastboot $* flash system system.img_sparsechunk.3
+		fastboot $* flash system system.img_sparsechunk.4
+		fastboot $* flash system system.img_sparsechunk.5
+		fastboot $* flash system system.img_sparsechunk.6
+		fastboot $* flash system system.img_sparsechunk.7
+		fastboot $* flash modem NON-HLOS.bin
+		fastboot $* erase modemst1
+		fastboot $* erase modemst2
+		fastboot $* flash fsg fsg.mbn
+		fastboot $* erase userdata
+		fastboot $* erase cache
+		fastboot $* reboot	
+#.# fastboot $* flash tz ~/Desktop/UPDATE/images/tz.mbn
 #.#	fastboot $* flash dbi ~/Desktop/UPDATE/images/sdi.mbn
 #.#	fastboot $* flash sbl1 ~/Desktop/UPDATE/images/sbl1.mbn
 #.#	fastboot $* flash rpm ~/Desktop/UPDATE/images/rpm.mbn
@@ -159,7 +180,7 @@ press_enter2
 #.#	fastboot $* flash recovery ~/Desktop/UPDATE/images/recovery.img
 #.#	fastboot $* flash boot+boot1 ~/Desktop/UPDATE/images/boot.img
 #.#	fastboot $* reboot
-#.#fi
+fi
 ####################################################################################
 ####################################################################################
 ####################################################################################
